@@ -1,5 +1,7 @@
 package com.example.talent.sep;
 
+import com.example.talent.sep.Trie.Node;
+
 public class StreamAlerter {
     private RingBuffer ring;
     private Trie trie;
@@ -11,11 +13,21 @@ public class StreamAlerter {
     			trie.add(word);
     		}
     	}
-    	ring=new RingBuffer();
+    	ring=new RingBuffer(trie);
     }
 
     public boolean query(char ch) {
-    	ring.put(ch);
-        return false;
+    	boolean result = false;
+    	if (ring.hasWord(ch)) {
+    		result = true; 
+    	}
+    	Node newNode = trie.getNext(null, ch);
+    	if (newNode!=null) {
+        	ring.put(newNode);
+    	}
+    	if (newNode!=null&&newNode.isWord) {
+    		result = true;
+    	}
+    	return result;
     }
 }
