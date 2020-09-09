@@ -47,7 +47,6 @@ public class RingBuffer {
 		if (empty()) {
 			return false;
 		}
-		// System.out.println("head="+head +";tail=" + tail);
 		boolean hasWord = false;
 		if (head < tail) {
 			for (int i = head; i < tail; i++) {
@@ -96,29 +95,30 @@ public class RingBuffer {
 	}
 
 	private void moveHead(int pos) {
-		if (pos == head)
+		if (pos == head) {
 			head = (head + 1) % bufferSize;
-		if (head < tail) {
-			for (int i = head; i < tail; i++) {
-				if (buffer[i] == null) {
-					head = (head + 1) % bufferSize;
-				} else {
-					break;
+			if (head < tail) {
+				for (int i = head; i < tail; i++) {
+					if (buffer[i] == null) {
+						head = (head + 1) % bufferSize;
+					} else {
+						break;
+					}
 				}
-			}
-		} else {
-			for (int i = head; i < bufferSize; i++) {
-				if (buffer[i] == null) {
-					head = (head + 1) % bufferSize;
-				} else {
-					break;
+			} else {
+				for (int i = head; i < bufferSize; i++) {
+					if (buffer[i] == null) {
+						head = (head + 1) % bufferSize;
+					} else {
+						break;
+					}
 				}
-			}
-			for (int i = 0; i < tail; i++) {
-				if (buffer[i] == null) {
-					head = (head + 1) % bufferSize;
-				} else {
-					break;
+				for (int i = 0; i < tail; i++) {
+					if (buffer[i] == null) {
+						head = (head + 1) % bufferSize;
+					} else {
+						break;
+					}
 				}
 			}
 		}
