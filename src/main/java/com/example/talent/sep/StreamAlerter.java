@@ -21,12 +21,12 @@ public class StreamAlerter {
     	if (ring.hasWord(ch)) {
     		result = true; 
     	}
-    	Node newNode = trie.getNext(null, ch);
+    	Node newNode = trie.getNewNext( ch);
     	if (newNode!=null) {
         	ring.put(newNode);
-    	}
-    	if (newNode!=null&&newNode.isWord) {
-    		result = true;
+        	if (newNode.isWord) {
+        		result = true;
+        	}
     	}
     	return result;
     }

@@ -25,12 +25,15 @@ public class Trie {
 
 	public void add(String word) {
 		Node curr = root;
+		Node next = null;
 		for (int i = 0; i < word.length(); i++) {
 			char c = word.charAt(i);
-			if (curr.next.get(c) == null) {
-				curr.next.put(c, new Node());
+			next = curr.next.get(c);
+			if (next == null) {
+				next = new Node();
+				curr.next.put(c, next);
 			}
-			curr = curr.next.get(c);
+			curr =next;
 		}
 		if (!curr.isWord) {
 			curr.isWord = true;
@@ -38,12 +41,9 @@ public class Trie {
 	}
 
 	public Node getNext(Node curr, char c) {
-		if (curr == null) {
-			curr = root;
-		}
-		if (curr.next.get(c) == null) {
-			return null;
-		}
 		return curr.next.get(c);
+	}
+	public Node getNewNext(char c) {
+		return root.next.get(c);
 	}
 }

@@ -94,6 +94,8 @@ public class RingBuffer {
 				buffer[pos] = null;
 				moveHead(pos);
 			}
+		}else {
+			moveHead(pos);
 		}
 		return hasWord;
 	}
@@ -103,33 +105,6 @@ public class RingBuffer {
 		if (pos == head) {
 			newHead = head + 1;
 			head = newHead == bufferSize?0:newHead;
-			if (head < tail) {
-				for (int i = head; i < tail; i++) {
-					if (buffer[i] == null) {
-						newHead = head + 1;
-						head = newHead == bufferSize?0:newHead;
-					} else {
-						break;
-					}
-				}
-			} else {
-				for (int i = head; i < bufferSize; i++) {
-					if (buffer[i] == null) {
-						newHead = head + 1;
-						head = newHead == bufferSize?0:newHead;
-					} else {
-						break;
-					}
-				}
-				for (int i = 0; i < tail; i++) {
-					if (buffer[i] == null) {
-						newHead = head + 1;
-						head = newHead == bufferSize?0:newHead;
-					} else {
-						break;
-					}
-				}
-			}
 		}
 	}
 }
