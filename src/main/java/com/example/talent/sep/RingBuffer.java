@@ -22,7 +22,9 @@ public class RingBuffer {
 	}
 
 	private boolean full() {
-		return (tail + 1) % bufferSize == head;
+		int newTail = tail + 1;
+
+		return (newTail == bufferSize?0:newTail) == head;
 	}
 
 	public boolean put(Node v) {
@@ -30,7 +32,8 @@ public class RingBuffer {
 			get();
 		}
 		buffer[tail] = v;
-		tail = (tail + 1) % bufferSize;
+		int newTail = tail + 1;
+		tail = newTail == bufferSize?0:newTail;
 		return true;
 	}
 
@@ -39,7 +42,8 @@ public class RingBuffer {
 			return null;
 		}
 		Node result = buffer[head];
-		head = (head + 1) % bufferSize;
+		int newHead = head + 1;
+		head = newHead == bufferSize?0:newHead;
 		return result;
 	}
 
@@ -95,12 +99,15 @@ public class RingBuffer {
 	}
 
 	private void moveHead(int pos) {
+		int newHead = 0;
 		if (pos == head) {
-			head = (head + 1) % bufferSize;
+			newHead = head + 1;
+			head = newHead == bufferSize?0:newHead;
 			if (head < tail) {
 				for (int i = head; i < tail; i++) {
 					if (buffer[i] == null) {
-						head = (head + 1) % bufferSize;
+						newHead = head + 1;
+						head = newHead == bufferSize?0:newHead;
 					} else {
 						break;
 					}
@@ -108,14 +115,16 @@ public class RingBuffer {
 			} else {
 				for (int i = head; i < bufferSize; i++) {
 					if (buffer[i] == null) {
-						head = (head + 1) % bufferSize;
+						newHead = head + 1;
+						head = newHead == bufferSize?0:newHead;
 					} else {
 						break;
 					}
 				}
 				for (int i = 0; i < tail; i++) {
 					if (buffer[i] == null) {
-						head = (head + 1) % bufferSize;
+						newHead = head + 1;
+						head = newHead == bufferSize?0:newHead;
 					} else {
 						break;
 					}
